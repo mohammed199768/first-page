@@ -1,0 +1,117 @@
+.ickRoot {
+  position: relative;
+  width: 100%;
+  overflow-x: hidden;
+  background: #05060b;
+  color: #eae6da;
+  font-family: var(--font-fraunces), serif;
+}
+
+@keyframes ring1 {
+  0% {
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.6);
+    opacity: 0;
+  }
+}
+
+@keyframes ring2 {
+  0% {
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(3.6);
+    opacity: 0;
+  }
+}
+
+/* Ink Drop Elements */
+.inkDropContainer {
+  position: relative;
+  transform: scale(1);
+}
+
+.inkDropSvgWrap {
+  position: relative;
+}
+
+/* Rings */
+.rippleRing1 {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 60px;
+  height: 60px;
+  border: 1px solid rgba(120, 200, 255, 0.6);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: ring1 3.4s ease-out infinite;
+}
+
+.rippleRing2 {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 60px;
+  height: 60px;
+  border: 1px solid rgba(155, 120, 255, 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: ring2 3.4s ease-out infinite;
+  animation-delay: 0.9s;
+}
+
+/* Masks and Filters */
+.mathMaskLeft {
+  -webkit-mask-image: radial-gradient(120% 100% at 30% 50%, #000 45%, transparent 88%);
+  mask-image: radial-gradient(120% 100% at 30% 50%, #000 45%, transparent 88%);
+}
+
+.mathMaskRight {
+  -webkit-mask-image: radial-gradient(120% 100% at 70% 50%, #000 45%, transparent 88%);
+  mask-image: radial-gradient(120% 100% at 70% 50%, #000 45%, transparent 88%);
+}
+
+.sketchMask {
+  -webkit-mask-image: radial-gradient(115% 110% at 45% 50%, #000 52%, transparent 86%);
+  mask-image: radial-gradient(115% 110% at 45% 50%, #000 52%, transparent 86%);
+}
+
+.gridMask {
+  -webkit-mask-image: radial-gradient(80% 70% at 50% 50%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(80% 70% at 50% 50%, #000 0%, transparent 78%);
+}
+
+/* Reduced Motion Static Fallbacks */
+@media (prefers-reduced-motion: reduce) {
+  .rippleRing1,
+  .rippleRing2 {
+    animation: none;
+  }
+}
+
+/* Origin Strip Elements */
+.originStrip {
+  position: relative;
+  background: #050510;
+  line-height: 0;
+  overflow: hidden;
+}
+
+.originImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}

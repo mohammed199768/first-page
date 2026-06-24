@@ -10,6 +10,14 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  --color-inkspireBlack: #09060f;
+  --color-inkspirePurple: #201037;
+  --color-inkspireIndigo: #0d0e22;
+  --color-accentPurple: #a78bfa;
+
+  --font-podium: 'FSP DEMO - PODIUM Sharp 4.11', var(--font-geist-sans);
+  --font-inter: 'Inter', var(--font-geist-sans);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,4 +31,90 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ── Inkspire cinematic route: override body background so no white bleeds through ── */
+body:has(.ick-root) {
+  background: #050510;
+  display: block;
+  min-height: unset;
+}
+
+@media (pointer: fine) {
+  body {
+    cursor: none;
+  }
+  a, button, [role="button"], .interactive {
+    cursor: none !important;
+  }
+}
+
+@layer utilities {
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+  
+  .fade-up.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Delay utility classes for IntersectionObserver */
+  .delay-100 { transition-delay: 100ms; }
+  .delay-200 { transition-delay: 200ms; }
+  .delay-300 { transition-delay: 300ms; }
+  .delay-400 { transition-delay: 400ms; }
+
+  /* Vanguard Inspired Animations */
+  @keyframes fade-up-anim {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fade-in-anim {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes scale-in-anim {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .animate-fade-up {
+    opacity: 0;
+    animation: fade-up-anim 0.8s ease-out forwards;
+  }
+  .animate-fade-up-delay-1 {
+    opacity: 0;
+    animation: fade-up-anim 0.8s ease-out 0.2s forwards;
+  }
+  .animate-fade-up-delay-2 {
+    opacity: 0;
+    animation: fade-up-anim 0.8s ease-out 0.4s forwards;
+  }
+  .animate-fade-up-delay-3 {
+    opacity: 0;
+    animation: fade-up-anim 0.8s ease-out 0.6s forwards;
+  }
+  .animate-fade-up-delay-4 {
+    opacity: 0;
+    animation: fade-up-anim 0.8s ease-out 0.8s forwards;
+  }
+
+  /* Kinetic Typography Mask Reveals */
+  .mask-container {
+    overflow: hidden;
+    line-height: 1.1;
+  }
+  .clip-reveal {
+    display: inline-block;
+    transform: translateY(110%);
+    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+  .clip-reveal.in-view {
+    transform: translateY(0);
+  }
 }

@@ -1,0 +1,124 @@
+// ============================================================================
+// ARCHITECTURAL INTENT: Selected Work Slider Section
+// ============================================================================
+// Portfolio slider using Swiper with 3D creative effects.
+//
+// CORE TECHNOLOGY:
+// - Swiper.js (touch slider library)
+// - EffectCreative module (3D perspective transforms)
+// - Autoplay module (3s delay)
+//
+// DATA FLOW:
+// - INPUT: projects.slice(0, 6) - first 6 projects
+// - OUTPUT: Carousel with prev/next slides scaled + rotated
+// - INTERACTION: Click opens project popup
+//
+// ANIMATION PATTERN:
+// - useGSAPFade: Entrance animation (Tier 1 hook)
+// - Swiper creative effect: slide transitions
+// - Prev/Next: translate [-90%, 0, -400], scale 0.85, rotate ±5deg
+//
+// PERFORMANCE:
+// - priority={index < 3}: First 3 images prioritized (LCP)
+// - quality=95: High quality for portfolio showcase
+//
+// EVIDENCE: Swiper integration, popup system pattern
+// ============================================================================
+
+"use client";
+
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, EffectCreative, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/effect-creative";
+import "swiper/css/pagination";
+import SectionTitle from "@/components/ui/SectionTitle";
+import { useGSAPFade } from "@/hooks/useGSAPFade";
+import { usePopup } from "@/hooks/usePopup";
+import { buildPopupFromProject } from "@/lib/popupMappers";
+
+import { projects } from "@/data/projects";
+
+export default function SelectedWorkSection() {
+    const containerRef = useGSAPFade();
+    const { openPopup } = usePopup();
+
+    // Use a subset of projects for Selected Work
+    const selectedWorks = projects.slice(0, 6);
+
+    return (
+        <section 
+            id="work"
+            ref={containerRef} 
+            className="scroll-mt-20 h-[100dvh] w-full flex flex-col relative isolate overflow-hidden bg-transparent"
+        >
+            {/* 1. Title Rail - High priority visibility */}
+            <div className="relative z-50 pt-16 md:pt-20 pb-2 isolate flex-shrink-0 pointer-events-none">
+                <SectionTitle 
+                    title="Selected" 
+                    highlight="Work" 
+                    highlightColor="text-accentPurple" 
+                    className="!mb-0"
+                />
+            </div>
+
+            {/* 2. Slider Rail - Flexes to fill remaining height */}
+            <div className="flex-grow w-full max-w-[1700px] mx-auto px-4 flex items-center justify-center overflow-visible pb-12 md:pb-20">
+                <div className="w-full h-full max-h-[500px] md:max-h-[700px] flex items-center">
+                    <Swiper
+                        effect={'creative'}
+                        grabCursor={true}
+                        centeredSlides={true}
+                        slidesPerView={'auto'}
+                        creativeEffect={{
+                            perspective: true,
+                            limitProgress: 2,
+                            prev: {
+                                translate: ['-90%', 0, -400],
+                                rotate: [0, 0, -5],
+                                opacity: 0.6,
+                                scale: 0.85,
+                            },
+                            next: {
+                                translate: ['90%', 0, -400],
+                                rotate: [0, 0, 5],
+                                opacity: 0.6,
+                                scale: 0.85,
+                            },
+                            shadowPerProgress: false
+                        }}
+                        pagination={true}
+                        modules={[EffectCreative, Pagination, Autoplay]}
+                        className="w-full h-full !overflow-visible"
+                        autoplay={{ delay: 3000, disableOnInteraction: false }}
+                        loop={true}
+                        speed={1000}
+                    >
+                        {selectedWorks.map((work, index) => (
+                            <SwiperSlide
+                                key={index}
+                                onClick={() => openPopup(buildPopupFromProject(work))}
+                                className="!w-[85vw] md:!w-[1100px] !h-full relative cursor-pointer"
+                            >
+                                {/* Floating Plane Wrapper */}
+                                <div className="selectedwork-plane w-full h-full relative">
+                                    <Image
+                                        src={work.coverImage || "/works/placeholder.webp"}
+                                        alt={work.title}
+                                        fill
+                                        className="object-cover rounded-md"
+                                        sizes="(max-width: 768px) 90vw, 1200px"
+                                        quality={95}
+                                        priority={index < 3}
+                                    />
+                                </div>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </div>
+            </div>
+        </section>
+    );
+}
