@@ -62,7 +62,7 @@ export default function ClientsSection() {
     const showGrid = hasTouch || scrollMode === "native" || !show3D;
 
     return (
-        <section className="min-h-[100dvh] w-full flex items-start bg-white/[0.02] border-y border-white/5 relative overflow-visible pt-0">
+        <section className="min-h-[100dvh] w-full flex items-start relative overflow-visible pt-0">
 
             {/* 1. 3D BACKGROUND LAYER (Active on Desktop cinematic mode) */}
             {show3D && (
@@ -75,19 +75,14 @@ export default function ClientsSection() {
             <div className="w-full h-full flex flex-col lg:flex-row relative z-10 pointer-events-none overflow-visible">
 
                 {/* Left Column: Title */}
-                <div className="w-full lg:w-1/3 p-6 md:p-12 flex flex-col justify-start pt-16 md:pt-20 pb-8 border-b lg:border-b-0 lg:border-r border-white/5 relative z-20 bg-black/20 backdrop-blur-sm pointer-events-auto">
+                <div className="w-full lg:w-1/3 p-6 md:p-12 flex flex-col justify-start pt-16 md:pt-20 pb-8 relative z-20 bg-transparent pointer-events-auto mt-24">
                     <div className="relative">
-                        <h6 className="text-sm font-medium text-purple-400 uppercase tracking-[0.2em] mb-4">
+                        <h6 className="text-sm font-[family-name:var(--font-inter)] text-white/50 uppercase tracking-[0.4em] mb-4">
                             Partners
                         </h6>
-                        <h3 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight brand-font text-white">
+                        <h3 className="text-[clamp(3rem,6vw,6rem)] font-[family-name:var(--font-podium)] leading-[0.85] uppercase text-white mix-blend-difference">
                             Our <br /> Clients
                         </h3>
-                        <div className="mt-8 w-24 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full opacity-80" />
-
-                        <p className="mt-6 text-white/50 max-w-sm text-lg">
-                            Trusted by innovative brands worldwide to bring their vision to life.
-                        </p>
                     </div>
                 </div>
 
@@ -96,9 +91,8 @@ export default function ClientsSection() {
                     
                     {/* Grid for touch/native scroll mode */}
                     {showGrid && (
-                        <div className="w-full h-full pointer-events-auto">
-                            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 pointer-events-none z-0" />
-                            <div className="grid grid-cols-2 md:grid-cols-4 h-full border-t lg:border-t-0 border-l border-white/5">
+                        <div className="w-full h-full pointer-events-auto mt-24 lg:mt-0">
+                            <div className="grid grid-cols-2 md:grid-cols-4 h-full">
                                 {clients.slice(0, 16).map((client) => (
                                     <div
                                         key={client.id}
@@ -115,25 +109,17 @@ export default function ClientsSection() {
                                                 openPopup(buildPopupFromProject(randomProject));
                                             }
                                         }}
-                                        className={`group relative min-h-[160px] lg:min-h-[25vh] border-r border-b border-white/5 flex items-center justify-center p-8 transition-all duration-500 overflow-visible cursor-pointer hover:z-30
-                                            ${client.projectSlug
-                                                ? 'hover:bg-white/[0.06]'
-                                                : 'hover:bg-white/[0.02]'}`}
+                                        className={`group relative min-h-[160px] lg:min-h-[25vh] flex items-center justify-center p-8 transition-all duration-500 overflow-visible cursor-pointer interactive magnetic hover:z-30`}
                                     >
-                                        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                                            <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-1000 ease-in-out skew-x-12" />
-                                        </div>
                                         <div className={`relative z-10 w-full h-full flex items-center justify-center transition-all duration-500 ease-out group-hover:scale-110 group-hover:-translate-y-2
                                             ${isSafari ? 'opacity-40 group-hover:opacity-100' : ''}
-                                            ${!isSafari ? (client.projectSlug
-                                                ? 'grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100'
-                                                : 'grayscale opacity-20 group-hover:grayscale-0 group-hover:opacity-60') : ''}`}>
+                                            ${!isSafari ? 'grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100' : ''}`}>
                                             <Image
                                                 src={client.logo}
                                                 alt={client.name || "Client Logo"}
                                                 fill
                                                 className={`object-contain transition-all duration-500 ${
-                                                    isSafari ? 'safari-logo-fix' : 'brightness-0 invert group-hover:brightness-[2]'
+                                                    isSafari ? 'safari-logo-fix' : 'brightness-0 invert'
                                                 }`}
                                                 sizes="(max-width: 768px) 50vw, 25vw"
                                             />

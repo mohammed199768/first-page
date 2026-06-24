@@ -258,41 +258,46 @@ export default function TestimonialsSection() {
     };
 
     return (
-        <div id="testimonials" ref={containerRef} className="scroll-mt-24 min-h-[100svh] flex flex-col justify-start pt-12 sm:pt-14 md:pt-16 pb-8 px-4 md:px-6 relative z-10 overflow-visible" dir="ltr">
-            <SectionTitle title="Client" highlight="Stories" highlightColor="text-accentPurple" />
+        <div id="testimonials" ref={containerRef} className="scroll-mt-24 min-h-[100svh] flex flex-col justify-center pt-12 pb-8 w-full relative z-10 overflow-visible pointer-events-none" dir="ltr" style={{ paddingLeft: 'var(--container-padding)', paddingRight: 'var(--container-padding)' }}>
+            
+            <div className="w-full max-w-7xl mx-auto pointer-events-auto mt-24">
+                <div className="mask-container mb-12 md:mb-20">
+                    <span className="clip-reveal inline-block text-white/50 text-xs sm:text-sm font-[family-name:var(--font-inter)] tracking-[0.4em] uppercase">
+                        Client Stories
+                    </span>
+                </div>
 
-            {/* Highlights Row */}
-            <div className="max-w-6xl w-full flex gap-4 md:gap-10 overflow-x-auto pb-8 md:pb-12 scrollbar-none px-2 md:px-4 justify-start md:justify-center items-center -mx-4 md:mx-auto">
-                {HIGHLIGHTS.map((client, idx) => (
-                    <button
-                        key={client.id}
-                        onClick={() => setActiveClient(idx)}
-                        className="flex flex-col items-center gap-3 md:gap-4 group flex-shrink-0"
-                        aria-label={`Watch ${client.name} stories`}
-                        title={client.name}
-                    >
-                        <div className={`ring-container p-[3px] md:p-[4px] rounded-full transition-all duration-500 group-hover:scale-105 active:scale-95
-                            ${seen.has(client.id) ? "seen opacity-50" : "unseen"}`}
+                {/* Highlights Row */}
+                <div className="w-full flex gap-6 md:gap-12 overflow-x-auto pb-8 md:pb-12 scrollbar-none justify-start items-center mask-container">
+                    {HIGHLIGHTS.map((client, idx) => (
+                        <button
+                            key={client.id}
+                            onClick={() => setActiveClient(idx)}
+                            className={`clip-reveal delay-${(idx + 1) * 100} flex flex-col items-center gap-4 group flex-shrink-0 interactive magnetic`}
+                            aria-label={`Watch ${client.name} stories`}
+                            title={client.name}
                         >
-                            <div className="w-[85px] h-[85px] md:w-[130px] md:h-[130px] rounded-full bg-black p-[2px] md:p-[3px] overflow-hidden relative">
-                                <img
-                                    src={client.avatar}
-                                    alt={client.name}
-                                    className="w-full h-full rounded-full object-cover transition-all duration-700 brightness-110 group-hover:brightness-125"
-                                />
-                                {seen.has(client.id) && (
-                                    <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
-                                )}
+                            <div className={`ring-container p-[2px] rounded-full transition-all duration-500 group-hover:scale-105 active:scale-95
+                                ${seen.has(client.id) ? "seen opacity-30" : "unseen"}`}
+                            >
+                                <div className="w-[100px] h-[100px] md:w-[150px] md:h-[150px] rounded-full bg-black p-[2px] overflow-hidden relative">
+                                    <img
+                                        src={client.avatar}
+                                        alt={client.name}
+                                        className="w-full h-full rounded-full object-cover transition-all duration-700 grayscale group-hover:grayscale-0"
+                                    />
+                                    {seen.has(client.id) && (
+                                        <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                        <span className={`text-[16px] md:text-[20px] font-bold tracking-tight transition-all duration-300 ${seen.has(client.id) ? "text-gray-500" : "text-gray-300 group-hover:text-white"}`}>
-                            {client.name}
-                        </span>
-                    </button>
-                ))}
+                            <span className={`text-sm md:text-base font-[family-name:var(--font-inter)] tracking-[0.2em] uppercase transition-all duration-300 ${seen.has(client.id) ? "text-white/30" : "text-white/70 group-hover:text-white"}`}>
+                                {client.name}
+                            </span>
+                        </button>
+                    ))}
+                </div>
             </div>
-
-
 
             {renderModal()}
 
@@ -301,11 +306,11 @@ export default function TestimonialsSection() {
                     position: relative;
                 }
                 .ring-container.unseen {
-                    background: conic-gradient(from 180deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888, #f09433);
-                    box-shadow: 0 12px 35px rgba(220, 39, 67, 0.35);
+                    background: white;
+                    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
                 }
                 .ring-container.seen {
-                    background: rgba(255, 255, 255, 0.15);
+                    background: rgba(255, 255, 255, 0.2);
                 }
                 .scrollbar-none::-webkit-scrollbar {
                     display: none;
@@ -313,11 +318,6 @@ export default function TestimonialsSection() {
                 .scrollbar-none {
                     -ms-overflow-style: none;
                     scrollbar-width: none;
-                }
-                @media (max-width: 768px) {
-                    .ring-container.unseen {
-                        box-shadow: 0 8px 20px rgba(220, 39, 67, 0.25);
-                    }
                 }
             `}</style>
         </div>

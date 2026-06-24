@@ -1,44 +1,47 @@
 "use client";
 
-import Image from "next/image";
+import { useKineticType } from "@/hooks/useKineticType";
 import { team } from "@/data/staticData";
-import SectionTitle from "@/components/ui/SectionTitle";
-import { useGSAPFade } from "@/hooks/useGSAPFade";
 import { usePopup } from "@/hooks/usePopup";
 import { buildPopupFromTeamMember } from "@/lib/popupMappers";
 
 export default function TeamSection() {
-    const containerRef = useGSAPFade();
+    const containerRef = useKineticType();
     const { openPopup } = usePopup();
 
     return (
-        <div id="team" ref={containerRef} className="scroll-mt-24 min-h-[100svh] flex flex-col justify-start pt-12 sm:pt-14 md:pt-16 pb-8 px-4 md:px-6 relative overflow-visible">
-            <SectionTitle 
-                title="Meet The" 
-                highlight="Team" 
-                highlightColor="text-accentPurple" 
-            />
-            <div className="grid grid-cols-2 md:flex md:flex-wrap justify-center gap-2 md:gap-6 lg:gap-10 max-w-7xl mx-auto w-full">
-                {team.map((member, i) => (
-                    <div
-                        key={i}
-                        onClick={() => openPopup(buildPopupFromTeamMember(member))}
-                        className="fade-up group relative w-full md:w-[260px] lg:w-[350px] h-[280px] md:h-[380px] lg:h-[500px] rounded-xl md:rounded-3xl overflow-hidden transition-all duration-500 md:hover:scale-105 cursor-pointer"
-                    >
-                        <Image
-                            src={member.image}
-                            alt={member.name}
-                            fill
-                            className="object-cover object-top transition-all duration-500 grayscale-0 opacity-100 md:grayscale md:opacity-60 md:group-hover:grayscale-0 md:group-hover:opacity-100"
-                            sizes="(max-width: 768px) 50vw, 350px"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-4 md:p-6 lg:p-8 translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-300 z-10">
-                            <h3 className="text-lg md:text-2xl lg:text-3xl font-bold text-white mb-1 leading-tight">{member.name}</h3>
-                            <p className="text-accentPurple font-medium tracking-wide text-xs md:text-base">{member.role}</p>
+        <section 
+            id="team" 
+            ref={containerRef as any} 
+            className="scroll-mt-24 min-h-[100svh] flex flex-col justify-center items-start pt-12 pb-8 w-full relative overflow-visible pointer-events-none"
+            style={{ paddingLeft: 'var(--container-padding)', paddingRight: 'var(--container-padding)' }}
+        >
+            <div className="w-full max-w-7xl mx-auto pointer-events-auto mt-24">
+                <div className="mask-container mb-12 md:mb-20">
+                    <span className="clip-reveal inline-block text-white/50 text-xs sm:text-sm font-[family-name:var(--font-inter)] tracking-[0.4em] uppercase">
+                        The Vanguard
+                    </span>
+                </div>
+                
+                <div className="flex flex-col w-full">
+                    {team.map((member, idx) => (
+                        <div
+                            key={idx}
+                            onClick={() => openPopup(buildPopupFromTeamMember(member))}
+                            className="mask-container border-b border-white/10 pb-6 mb-6 group interactive magnetic cursor-pointer hover:bg-white/5 transition-colors duration-500 flex flex-col px-4"
+                        >
+                            <div className={`clip-reveal delay-${(idx + 1) * 100} flex flex-col md:flex-row md:items-baseline justify-between w-full`}>
+                                <h3 className="text-[clamp(2rem,5vw,5rem)] leading-none font-[family-name:var(--font-podium)] text-white/80 mix-blend-difference uppercase group-hover:text-white group-hover:translate-x-4 transition-all duration-500">
+                                    {member.name}
+                                </h3>
+                                <span className="text-white/40 font-[family-name:var(--font-inter)] text-xs md:text-sm tracking-[0.3em] uppercase group-hover:text-accentPurple transition-colors duration-500 mt-2 md:mt-0">
+                                    {member.role}
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
-        </div>
+        </section>
     );
 }
